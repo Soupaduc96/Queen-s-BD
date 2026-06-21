@@ -218,6 +218,16 @@ export default function FinalSection({ galleryItems }: FinalSectionProps) {
             exit={{ opacity: 0, scale: 0.95, filter: 'blur(3px)' }}
             transition={{ duration: 2.2, ease: 'easeOut' }}
             className="absolute inset-0 w-full h-full object-cover"
+            onError={(e) => {
+              const target = e.currentTarget;
+              const isOdd = activeImage ? activeImage.id.match(/[1357]/) : (slideIndex % 2 === 0);
+              const fallback = isOdd
+                ? '/images/kai/kai-hero.jpg'
+                : '/images/kai/kai-portrait.jpg';
+              if (target.src !== fallback) {
+                target.src = fallback;
+              }
+            }}
           />
         </AnimatePresence>
         {/* Soft blackout veil and vignettes */}

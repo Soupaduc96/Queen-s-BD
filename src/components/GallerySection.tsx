@@ -86,6 +86,16 @@ export default function GallerySection({
                     alt={item.title}
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110 filter brightness-[0.7] group-hover:brightness-[0.5]"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      const isOdd = item.id.match(/[1357]/);
+                      const fallback = isOdd 
+                        ? '/images/kai/kai-hero.jpg'
+                        : '/images/kai/kai-portrait.jpg';
+                      if (target.src !== fallback) {
+                        target.src = fallback;
+                      }
+                    }}
                   />
                   {/* Luxury soft golden overlay gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0502] via-[#0A0502]/40 to-transparent opacity-90" />
@@ -139,6 +149,16 @@ export default function GallerySection({
                   alt={selectedItem.title}
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    const isOdd = selectedItem.id.match(/[1357]/);
+                    const fallback = isOdd 
+                      ? '/images/kai/kai-hero.jpg'
+                      : '/images/kai/kai-portrait.jpg';
+                    if (target.src !== fallback) {
+                      target.src = fallback;
+                    }
+                  }}
                 />
               </div>
 

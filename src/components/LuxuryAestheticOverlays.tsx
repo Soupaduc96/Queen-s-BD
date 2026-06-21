@@ -341,11 +341,6 @@ export function LivingParallaxBackground() {
     return () => clearInterval(interval);
   }, []);
 
-  const bgPhotos = [
-    '/images/kai/kai-01.jpg',
-    '/images/kai/kai-02.jpg'
-  ];
-
   return (
     <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none select-none">
       <AnimatePresence mode="popLayout">
@@ -374,10 +369,19 @@ export function LivingParallaxBackground() {
           }}
         >
           <img
-            src={bgPhotos[slideIndex]}
+            src={slideIndex === 0 ? '/images/kai/kai-hero.jpg' : '/images/kai/kai-portrait.jpg'}
             alt="Living Frame"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover"
+            onError={(e) => {
+              const target = e.currentTarget;
+              const fallback = slideIndex === 0
+                ? '/images/kai/kai-hero.jpg'
+                : '/images/kai/kai-portrait.jpg';
+              if (target.src !== fallback) {
+                target.src = fallback;
+              }
+            }}
           />
         </motion.div>
       </AnimatePresence>

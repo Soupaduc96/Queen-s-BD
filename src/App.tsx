@@ -33,60 +33,60 @@ export default function App() {
       title: 'Dignité & Beauté Royale',
       quality: 'Une Reine Céleste',
       description: 'Un rayonnement absolu qui capte la lumière naturelle, alliant charisme souverain et grâce intemporelle dans chaque regard.',
-      defaultImageUrl: '/images/kai/kai-01.jpg',
+      defaultImageUrl: '/images/kai/kai-hero.jpg',
     },
     {
       id: 'g2',
       title: 'L\'Élégance de sa Démarche',
       quality: 'Grâce Souveraine',
       description: 'Chaque geste est une poésie muette. Du choix d’une tenue au port majestueux de la tête, l’élégance coule naturellement dans tes veines, ma belle Kai.',
-      defaultImageUrl: '/images/kai/kai-02.jpg',
+      defaultImageUrl: '/images/kai/kai-portrait.jpg',
     },
     {
       id: 'g3',
       title: 'La Beauté de son Sourire',
       quality: 'Rayon de Soleil',
       description: 'Lorsque tes lèvres dessinent ce sourire espiègle et sincère, les nuages de mon quotidien s\'estompent pour laisser place à l’aurore, Kayoo.',
-      defaultImageUrl: '/images/kai/kai-01.jpg',
+      defaultImageUrl: '/images/kai/kai-hero.jpg',
     },
     {
       id: 'g4',
       title: 'La Douceur de ses Gestes',
       quality: 'Havre Infini',
       description: 'Une bienveillance qui réconforte sans mot dire, comme la confiance immense que m’inspirent les battements chaleureux de ton cœur, mon Trésor.',
-      defaultImageUrl: '/images/kai/kai-02.jpg',
+      defaultImageUrl: '/images/kai/kai-portrait.jpg',
     },
     {
       id: 'g5',
       title: 'Son Intelligence Vive',
       quality: 'Sagesse Dorée',
       description: 'Ta perception aiguisée des hommes et des choses enrichit mes journées. Ta curiosité intellectuelle et ton discernement absolu, Hun, me fascinent.',
-      defaultImageUrl: '/images/kai/kai-01.jpg',
+      defaultImageUrl: '/images/kai/kai-hero.jpg',
     },
     {
       id: 'g6',
       title: 'Son Charisme Mystique',
       quality: 'Aura Majestueuse',
       description: 'Une présence irrésistible qui captive immédiatement tous ceux qui t\'entourent, sans effort apparent. Tu imposes le respect et la dévotion totale, Mammie.',
-      defaultImageUrl: '/images/kai/kai-02.jpg',
+      defaultImageUrl: '/images/kai/kai-portrait.jpg',
     },
     {
       id: 'g7',
       title: 'La Noblesse de sa Force',
       quality: 'Pilier Secrète',
       description: 'Cachée derrière ta délicatesse divine bat une volonté de fer. Tu affrontes le monde avec dignité et courage, inspirant mon existence, ma Fanm vim.',
-      defaultImageUrl: '/images/kai/kai-01.jpg',
+      defaultImageUrl: '/images/kai/kai-hero.jpg',
     },
     {
       id: 'g8',
       title: 'Sa Lumière Intérieure',
       quality: 'Éclat Divin',
       description: 'Une lueur immaculée qui provient du plus profond de ton âme précieuse, capable d\'illuminer et de guider celle de celui qui t\'aime, ma Manmi vim.',
-      defaultImageUrl: '/images/kai/kai-02.jpg',
+      defaultImageUrl: '/images/kai/kai-portrait.jpg',
     }
   ];
 
-  // Load photos on initial screen render
+  // Load and map photos on initial screen render, and handle scroll state
   useEffect(() => {
     setGalleryItems(defaultGallery);
 
@@ -97,50 +97,79 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Automated synchronization of client-side dynamic attachments to container file system
+  // Automated background synchronization of the user-uploaded images to the server's public folder
   useEffect(() => {
     const syncAttachedImages = async () => {
       const targets = [
-        { url: '/input_file_0.png', filename: 'kai-01.jpg' },
-        { url: '/input_file_1.png', filename: 'kai-02.jpg' },
-        { url: 'input_file_0.png', filename: 'kai-01.jpg' },
-        { url: 'input_file_1.png', filename: 'kai-02.jpg' },
+        {
+          urls: [
+            '/__aistudio_internal_control_plane/input_file_0.png',
+            '/input_file_0.png',
+            '/input_file_0'
+          ],
+          filename: 'kai-hero.jpg',
+        },
+        {
+          urls: [
+            '/__aistudio_internal_control_plane/input_file_1.png',
+            '/input_file_1.png',
+            '/input_file_1'
+          ],
+          filename: 'kai-portrait.jpg',
+        }
       ];
 
       for (const t of targets) {
-        try {
-          const res = await fetch(t.url);
-          if (res.ok) {
-            const contentType = res.headers.get('content-type') || '';
-            // Make sure we actually fetched an image, not the fallback html page
-            if (contentType.startsWith('image/')) {
-              const blob = await res.blob();
-              const base64Data = await new Promise<string | null>((resolve) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result as string);
-                reader.onerror = () => resolve(null);
-                reader.readAsDataURL(blob);
-              });
-
-              if (base64Data) {
-                await fetch('/api/save-kai-asset', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ filename: t.filename, base64Data }),
+        let success = false;
+        for (const url of t.urls) {
+          try {
+            const res = await fetch(url);
+            if (res.ok) {
+              const contentType = res.headers.get('content-type') || '';
+              // Make sure we actually fetched an image, not the fallback html page
+              if (contentType.startsWith('image/')) {
+                const blob = await res.blob();
+                const base64Data = await new Promise<string | null>((resolve) => {
+                  const reader = new FileReader();
+                  reader.onloadend = () => resolve(reader.result as string);
+                  reader.onerror = () => resolve(null);
+                  reader.readAsDataURL(blob);
                 });
-                console.log(`[Sync Client] Successfully saved ${t.filename} to local backend.`);
+
+                if (base64Data) {
+                  await fetch('/api/save-kai-asset', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filename: t.filename, base64Data }),
+                  });
+                  console.log(`[Sync Client] Successfully saved ${t.filename} from ${url}`);
+                  
+                  // Instantly update the gallery to display newly synchronized images
+                  setGalleryItems(prev => prev.map(item => {
+                    const isHero = item.id.match(/[1357]/);
+                    if (isHero && t.filename === 'kai-hero.jpg') {
+                      return { ...item, defaultImageUrl: '/images/kai/kai-hero.jpg' };
+                    } else if (!isHero && t.filename === 'kai-portrait.jpg') {
+                      return { ...item, defaultImageUrl: '/images/kai/kai-portrait.jpg' };
+                    }
+                    return item;
+                  }));
+                  
+                  // Dispatch update event to other luxury view layouts
+                  window.dispatchEvent(new Event('kai-photos-updated'));
+                  success = true;
+                  break;
+                }
               }
             }
+          } catch (e) {
+            // Silently try other urls
           }
-        } catch (e) {
-          // Silent catch in production
         }
       }
     };
 
-    if ((import.meta as any).env.DEV) {
-      syncAttachedImages();
-    }
+    syncAttachedImages();
   }, []);
 
   const handleIntroComplete = () => {
