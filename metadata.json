@@ -1,0 +1,6 @@
+{
+  "name": "Anniversaire de Mon Amour",
+  "description": "Une experience web premium, interactive et cinematographique creee pour celebrer le 20eme anniversaire de ma bien-aimee.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
