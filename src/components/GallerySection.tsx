@@ -3,90 +3,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Upload, RotateCcw, Image as ImageIcon } from 'lucide-react';
+import { Sparkles, Image as ImageIcon } from 'lucide-react';
 import { GalleryItem } from '../types';
 import { FlickeringCandle, FlowerBouquetOrnament } from './LuxuryAestheticOverlays';
 
 interface GallerySectionProps {
   galleryItems: GalleryItem[];
-  onUpdateImage: (id: string, base64Data: string) => void;
-  onResetImages: () => void;
 }
 
 export default function GallerySection({
   galleryItems,
-  onUpdateImage,
-  onResetImages,
 }: GallerySectionProps) {
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [uploadingId, setUploadingId] = useState<string | null>(null);
 
   const handleCardClick = (item: GalleryItem) => {
     setSelectedItem(item);
-  };
-
-  const triggerUpload = (e: React.MouseEvent, id: string) => {
-    e.stopPropagation();
-    setUploadingId(id);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-      fileInputRef.current.click();
-    }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !uploadingId) return;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const img = new Image();
-      img.onload = () => {
-        // High-end smart Canvas Compression to fit inside localStorage (max 800px width/height)
-        const maxWidth = 800;
-        const maxHeight = 800;
-        let width = img.width;
-        let height = img.height;
-
-        if (width > height) {
-          if (width > maxWidth) {
-            height = Math.round((height * maxWidth) / width);
-            width = maxWidth;
-          }
-        } else {
-          if (height > maxHeight) {
-            width = Math.round((width * maxHeight) / height);
-            height = maxHeight;
-          }
-        }
-
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(img, 0, 0, width, height);
-          // Convert to JPEG with 0.75 quality for beautiful compression & small size
-          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.75);
-          onUpdateImage(uploadingId, compressedBase64);
-          
-          // Also update selected modal item if open
-          if (selectedItem && selectedItem.id === uploadingId) {
-            setSelectedItem({
-              ...selectedItem,
-              customImageUrl: compressedBase64
-            });
-          }
-        }
-        setUploadingId(null);
-      };
-      img.src = event.target?.result as string;
-    };
-    reader.readAsDataURL(file);
   };
 
   return (
@@ -96,15 +29,6 @@ export default function GallerySection({
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,165,165,0.06)_0%,transparent_50%)] pointer-events-none" />
       
-      {/* Input hidden file stream */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        accept="image/*"
-        className="hidden"
-      />
-
       <div className="max-w-7xl w-full flex flex-col items-center gap-16 relative z-10">
         
         {/* Glamour Header */}
@@ -138,29 +62,12 @@ export default function GallerySection({
           >
             « Huit facettes divines d'une âme majestueuse, célébrées à travers la lumière de son être... »
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
-            className="flex items-center justify-center gap-4 pt-4"
-          >
-            <button
-              onClick={onResetImages}
-              className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C5A059]/30 hover:border-[#C5A059] text-[#E6D5B8] hover:text-[#F7E7CE] text-xs tracking-wider transition-colors duration-300 bg-[#151312] cursor-pointer"
-              title="Réinitialiser les images"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              Rétablir les filtres d'origine
-            </button>
-          </motion.div>
         </div>
 
         {/* Cinematic Grid Layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
           {galleryItems.map((item, idx) => {
-            const displayUrl = item.customImageUrl || item.defaultImageUrl;
+            const displayUrl = item.defaultImageUrl;
             
             return (
               <motion.div
@@ -183,15 +90,6 @@ export default function GallerySection({
                   {/* Luxury soft golden overlay gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0502] via-[#0A0502]/40 to-transparent opacity-90" />
                 </div>
-
-                {/* Photo customization controls triggers on hover */}
-                <button
-                  onClick={(e) => triggerUpload(e, item.id)}
-                  className="absolute top-4 right-4 z-20 flex items-center justify-center w-9 h-9 rounded-full bg-black/80 border border-[#C5A059]/35 text-[#C5A059] hover:text-[#F7E7CE] hover:scale-110 duration-300 focus:outline-none"
-                  title="Remplacer par sa propre photo"
-                >
-                  <Upload className="w-4 h-4" />
-                </button>
 
                 {/* Card description text */}
                 <div className="relative z-10 space-y-2">
@@ -237,20 +135,11 @@ export default function GallerySection({
               {/* Left Column: Image wrapper */}
               <div className="w-full md:w-1/2 h-[350px] md:h-[500px] relative">
                 <img
-                  src={selectedItem.customImageUrl || selectedItem.defaultImageUrl}
+                  src={selectedItem.defaultImageUrl}
                   alt={selectedItem.title}
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
                 />
-                
-                {/* Image editor overlay */}
-                <button
-                  onClick={(e) => triggerUpload(e, selectedItem.id)}
-                  className="absolute bottom-4 right-4 z-20 flex items-center gap-2 px-4 py-2 rounded-full bg-black/80 border border-[#C5A059] text-[#C5A059] hover:text-[#F7E7CE] hover:scale-105 duration-300 transition-all text-xs cursor-pointer"
-                >
-                  <Upload className="w-3.5 h-3.5" />
-                  Remplacer l'image
-                </button>
               </div>
 
               {/* Right Column: Descriptions */}

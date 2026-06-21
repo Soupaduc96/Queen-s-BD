@@ -5,7 +5,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Volume2, VolumeX, Music, Heart, Play, Pause, ChevronDown, ChevronUp, Youtube, Sparkles } from 'lucide-react';
-import { getAudioBlob } from '../utils/audioStorage';
 
 interface AudioPlayerProps {
   isPlaying: boolean;
@@ -162,14 +161,6 @@ export default function AudioPlayer({ isPlaying, setIsPlaying }: AudioPlayerProp
   // 1. SOUNDTRACK ENGINE: LOCAL FILE DETECTOR
   const loadLocalSoundtrackSource = async () => {
     try {
-      const localBlob = await getAudioBlob();
-      if (localBlob) {
-        const blobUrl = URL.createObjectURL(localBlob);
-        setAudioSource(blobUrl);
-        setHasLocalSoundtrack(true);
-        return;
-      }
-
       const response = await fetch('/main-romantic-soundtrack.mp3', { method: 'HEAD' });
       if (response.ok) {
         setAudioSource('/main-romantic-soundtrack.mp3');
@@ -177,7 +168,7 @@ export default function AudioPlayer({ isPlaying, setIsPlaying }: AudioPlayerProp
         return;
       }
     } catch (e) {
-      console.log("No custom public or DB offline files loaded yet.");
+      console.log("No custom public offline files loaded yet.");
     }
     setHasLocalSoundtrack(false);
     setAudioSource('');

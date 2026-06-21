@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Eye, ArrowUp, Sparkles, Heart, ChevronDown, Settings } from 'lucide-react';
+import { Eye, ArrowUp, Sparkles, Heart, ChevronDown } from 'lucide-react';
 import { GalleryItem } from './types';
 import IntroSection from './components/IntroSection';
 import GallerySection from './components/GallerySection';
@@ -16,7 +16,6 @@ import LetterSection from './components/LetterSection';
 import FutureSection from './components/FutureSection';
 import FinalSection from './components/FinalSection';
 import AudioPlayer from './components/AudioPlayer';
-import AdminPanel from './components/AdminPanel';
 import CinematicLoader from './components/CinematicLoader';
 import { LivingParallaxBackground, RosePetalsRain, FlickeringCandle } from './components/LuxuryAestheticOverlays';
 
@@ -26,7 +25,6 @@ export default function App() {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   // Initialize gallery items with premium luxury default parameters
   const defaultGallery: GalleryItem[] = [
@@ -35,66 +33,62 @@ export default function App() {
       title: 'Dignité & Beauté Royale',
       quality: 'Une Reine Céleste',
       description: 'Un rayonnement absolu qui capte la lumière naturelle, alliant charisme souverain et grâce intemporelle dans chaque regard.',
-      defaultImageUrl: '/input_file_0.png',
+      defaultImageUrl: '/images/kai/kai-01.jpg',
     },
     {
       id: 'g2',
       title: 'L\'Élégance de sa Démarche',
       quality: 'Grâce Souveraine',
       description: 'Chaque geste est une poésie muette. Du choix d’une tenue au port majestueux de la tête, l’élégance coule naturellement dans tes veines, ma belle Kai.',
-      defaultImageUrl: '/input_file_0.png',
+      defaultImageUrl: '/images/kai/kai-02.jpg',
     },
     {
       id: 'g3',
       title: 'La Beauté de son Sourire',
       quality: 'Rayon de Soleil',
       description: 'Lorsque tes lèvres dessinent ce sourire espiègle et sincère, les nuages de mon quotidien s\'estompent pour laisser place à l’aurore, Kayoo.',
-      defaultImageUrl: '/input_file_1.png',
+      defaultImageUrl: '/images/kai/kai-01.jpg',
     },
     {
       id: 'g4',
       title: 'La Douceur de ses Gestes',
       quality: 'Havre Infini',
       description: 'Une bienveillance qui réconforte sans mot dire, comme la confiance immense que m’inspirent les battements chaleureux de ton cœur, mon Trésor.',
-      defaultImageUrl: '/input_file_1.png',
+      defaultImageUrl: '/images/kai/kai-02.jpg',
     },
     {
       id: 'g5',
       title: 'Son Intelligence Vive',
       quality: 'Sagesse Dorée',
       description: 'Ta perception aiguisée des hommes et des choses enrichit mes journées. Ta curiosité intellectuelle et ton discernement absolu, Hun, me fascinent.',
-      defaultImageUrl: '/input_file_1.png',
+      defaultImageUrl: '/images/kai/kai-01.jpg',
     },
     {
       id: 'g6',
       title: 'Son Charisme Mystique',
       quality: 'Aura Majestueuse',
       description: 'Une présence irrésistible qui captive immédiatement tous ceux qui t\'entourent, sans effort apparent. Tu imposes le respect et la dévotion totale, Mammie.',
-      defaultImageUrl: '/input_file_0.png',
+      defaultImageUrl: '/images/kai/kai-02.jpg',
     },
     {
       id: 'g7',
       title: 'La Noblesse de sa Force',
       quality: 'Pilier Secrète',
       description: 'Cachée derrière ta délicatesse divine bat une volonté de fer. Tu affrontes le monde avec dignité et courage, inspirant mon existence, ma Fanm vim.',
-      defaultImageUrl: '/input_file_0.png',
+      defaultImageUrl: '/images/kai/kai-01.jpg',
     },
     {
       id: 'g8',
       title: 'Sa Lumière Intérieure',
       quality: 'Éclat Divin',
       description: 'Une lueur immaculée qui provient du plus profond de ton âme précieuse, capable d\'illuminer et de guider celle de celui qui t\'aime, ma Manmi vim.',
-      defaultImageUrl: '/input_file_1.png',
+      defaultImageUrl: '/images/kai/kai-02.jpg',
     }
   ];
 
-  // Load photos from localStorage on initial screen render
+  // Load photos on initial screen render
   useEffect(() => {
-    const loadedGallery = defaultGallery.map((item) => {
-      const stored = localStorage.getItem(`custom_gallery_img_${item.id}`);
-      return stored ? { ...item, customImageUrl: stored } : item;
-    });
-    setGalleryItems(loadedGallery);
+    setGalleryItems(defaultGallery);
 
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 800);
@@ -103,23 +97,51 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Update specific gallery image Base64 data and persist
-  const handleUpdateImage = (id: string, base64Data: string) => {
-    localStorage.setItem(`custom_gallery_img_${id}`, base64Data);
-    setGalleryItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, customImageUrl: base64Data } : item
-      )
-    );
-  };
+  // Automated synchronization of client-side dynamic attachments to container file system
+  useEffect(() => {
+    const syncAttachedImages = async () => {
+      const targets = [
+        { url: '/input_file_0.png', filename: 'kai-01.jpg' },
+        { url: '/input_file_1.png', filename: 'kai-02.jpg' },
+        { url: 'input_file_0.png', filename: 'kai-01.jpg' },
+        { url: 'input_file_1.png', filename: 'kai-02.jpg' },
+      ];
 
-  // Reset customized images to default placeholders
-  const handleResetImages = () => {
-    defaultGallery.forEach((item) => {
-      localStorage.removeItem(`custom_gallery_img_${item.id}`);
-    });
-    setGalleryItems(defaultGallery);
-  };
+      for (const t of targets) {
+        try {
+          const res = await fetch(t.url);
+          if (res.ok) {
+            const contentType = res.headers.get('content-type') || '';
+            // Make sure we actually fetched an image, not the fallback html page
+            if (contentType.startsWith('image/')) {
+              const blob = await res.blob();
+              const base64Data = await new Promise<string | null>((resolve) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result as string);
+                reader.onerror = () => resolve(null);
+                reader.readAsDataURL(blob);
+              });
+
+              if (base64Data) {
+                await fetch('/api/save-kai-asset', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ filename: t.filename, base64Data }),
+                });
+                console.log(`[Sync Client] Successfully saved ${t.filename} to local backend.`);
+              }
+            }
+          }
+        } catch (e) {
+          // Silent catch in production
+        }
+      }
+    };
+
+    if ((import.meta as any).env.DEV) {
+      syncAttachedImages();
+    }
+  }, []);
 
   const handleIntroComplete = () => {
     // Wake up background audio system synchronously inside user click gesture frame!
@@ -149,15 +171,6 @@ export default function App() {
       
       {/* Background audio loop synth player */}
       <AudioPlayer isPlaying={isPlayingAudio} setIsPlaying={setIsPlayingAudio} />
-
-      {/* Luxury adjustment and customization panel */}
-      <AdminPanel 
-        isOpen={isAdminOpen}
-        onClose={() => setIsAdminOpen(false)}
-        galleryItems={galleryItems}
-        onUpdateImage={handleUpdateImage}
-        onResetImages={handleResetImages}
-      />
 
       <AnimatePresence mode="wait">
         {showLoader ? (
@@ -212,18 +225,9 @@ export default function App() {
               </div>
               
               <div className="flex items-center gap-4">
-                <p className="hidden md:block font-display tracking-[0.3em] text-[10px] text-[#C5A059] uppercase font-bold">
+                <p className="font-display tracking-[0.3em] text-[10px] text-[#C5A059] uppercase font-bold">
                   Joyeux 20 ans • Vingt Ans d'Éclat
                 </p>
-                
-                <button
-                  onClick={() => setIsAdminOpen(true)}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#C5A059]/40 hover:border-[#C5A059] bg-[#C5A059]/10 hover:bg-[#C5A059]/20 text-[#F7E7CE] font-mono text-[9px] font-bold uppercase tracking-wider duration-300 transition-all cursor-pointer shadow-md hover:shadow-[#C5A059]/10"
-                  title="Ouvrir la console d'ajustements"
-                >
-                  <Settings className="w-3.5 h-3.5 animate-spin-slow text-[#C5A059]" />
-                  Ajustements
-                </button>
               </div>
             </header>
 
@@ -281,8 +285,6 @@ export default function App() {
               {/* SECTION 2: LA FEMME EXCEPTIONNELLE (Gallery) */}
               <GallerySection
                 galleryItems={galleryItems}
-                onUpdateImage={handleUpdateImage}
-                onResetImages={handleResetImages}
               />
 
               {/* SECTION 3: POURQUOI ELLE EST UNIQUE */}

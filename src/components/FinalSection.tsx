@@ -189,7 +189,7 @@ export default function FinalSection({ galleryItems }: FinalSectionProps) {
 
   // Fetch images from gallery for slide show
   const activeImage = galleryItems[slideIndex % galleryItems.length];
-  const activeImageUrl = activeImage?.customImageUrl || activeImage?.defaultImageUrl;
+  const activeImageUrl = activeImage?.defaultImageUrl;
 
   const restartCinematic = () => {
     setSlideIndex(0);

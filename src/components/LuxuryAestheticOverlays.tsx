@@ -341,7 +341,10 @@ export function LivingParallaxBackground() {
     return () => clearInterval(interval);
   }, []);
 
-  const bgPhotos = ['/input_file_0.png', '/input_file_1.png'];
+  const bgPhotos = [
+    '/images/kai/kai-01.jpg',
+    '/images/kai/kai-02.jpg'
+  ];
 
   return (
     <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none select-none">
