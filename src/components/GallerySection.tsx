@@ -90,8 +90,8 @@ export default function GallerySection({
                       const target = e.currentTarget;
                       const isOdd = item.id.match(/[1357]/);
                       const fallback = isOdd 
-                        ? 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1200'
-                        : 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800';
+                        ? '/images/KAII.jpg'
+                        : '/images/KAI.jpg';
                       if (target.src !== fallback) {
                         target.src = fallback;
                       }
@@ -153,8 +153,8 @@ export default function GallerySection({
                     const target = e.currentTarget;
                     const isOdd = selectedItem.id.match(/[1357]/);
                     const fallback = isOdd 
-                      ? 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1200'
-                      : 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800';
+                      ? '/images/KAII.jpg'
+                      : '/images/KAI.jpg';
                     if (target.src !== fallback) {
                       target.src = fallback;
                     }

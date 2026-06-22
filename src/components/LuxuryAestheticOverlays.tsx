@@ -333,6 +333,11 @@ export function FlickeringCandle({ className = '', size = 'md', delay = 0 }: Can
 export function LivingParallaxBackground() {
   const [slideIndex, setSlideIndex] = useState(0);
 
+  const images = {
+    hero: '/images/KAII.jpg',
+    portrait: '/images/KAI.jpg'
+  };
+
   // Rotate between image 0 and image 1 every 14 seconds
   useEffect(() => {
     const interval = setInterval(() => {
@@ -341,11 +346,13 @@ export function LivingParallaxBackground() {
     return () => clearInterval(interval);
   }, []);
 
+  const activeSrc = slideIndex === 0 ? images.hero : images.portrait;
+
   return (
     <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none select-none">
       <AnimatePresence mode="popLayout">
         <motion.div
-          key={slideIndex}
+          key={slideIndex + '-' + activeSrc}
           initial={{ opacity: 0, scale: 1.05, filter: 'blur(4px) brightness(15%)' }}
           animate={{
             opacity: 0.18, // Ambient luxury soft exposure
@@ -369,15 +376,15 @@ export function LivingParallaxBackground() {
           }}
         >
           <img
-            src={slideIndex === 0 ? '/images/kai/kai-hero.jpg' : '/images/kai/kai-portrait.jpg'}
+            src={activeSrc}
             alt="Living Frame"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover"
             onError={(e) => {
               const target = e.currentTarget;
               const fallback = slideIndex === 0
-                ? 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1200'
-                : 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800';
+                ? '/images/KAII.jpg'
+                : '/images/KAI.jpg';
               if (target.src !== fallback) {
                 target.src = fallback;
               }
