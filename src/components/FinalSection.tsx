@@ -222,8 +222,8 @@ export default function FinalSection({ galleryItems }: FinalSectionProps) {
               const target = e.currentTarget;
               const isOdd = activeImage ? activeImage.id.match(/[1357]/) : (slideIndex % 2 === 0);
               const fallback = isOdd
-                ? '/images/kai/kai-hero.jpg'
-                : '/images/kai/kai-portrait.jpg';
+                ? 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1200'
+                : 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=800';
               if (target.src !== fallback) {
                 target.src = fallback;
               }
