@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Heart } from 'lucide-react';
 import { FlickeringCandle } from './LuxuryAestheticOverlays';
@@ -29,14 +29,14 @@ export default function IntroSection({ onComplete }: IntroSectionProps) {
   }, []);
 
   // Soft glowing background particles helper
-  const particles = Array.from({ length: 48 }).map((_, i) => ({
+  const particles = useMemo(() => Array.from({ length: 48 }).map((_, i) => ({
     id: i,
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
     delay: `${Math.random() * 8}s`,
     duration: `${6 + Math.random() * 10}s`,
     size: Math.random() * 3 + 1,
-  }));
+  })), []);
 
   return (
     <div

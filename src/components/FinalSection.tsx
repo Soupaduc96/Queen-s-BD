@@ -8,6 +8,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Sparkles, RefreshCw } from 'lucide-react';
 import { GalleryItem } from '../types';
 import { FlickeringCandle, FlowerBouquetOrnament } from './LuxuryAestheticOverlays';
+import { Image } from './Image';
+
+const MotionImage = motion(Image);
 
 interface FinalSectionProps {
   galleryItems: GalleryItem[];
@@ -15,7 +18,6 @@ interface FinalSectionProps {
 
 export default function FinalSection({ galleryItems }: FinalSectionProps) {
   const [slideIndex, setSlideIndex] = useState(0);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // Set visual emotional climate peak status flag dynamically to boost ambient weather patterns
   useEffect(() => {
@@ -44,149 +46,6 @@ export default function FinalSection({ galleryItems }: FinalSectionProps) {
     return () => clearInterval(interval);
   }, [texts.length]);
 
-  // Golden Rain Canvas Effect
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let width = (canvas.width = canvas.offsetWidth);
-    let height = (canvas.height = canvas.offsetHeight);
-
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
-    };
-    window.addEventListener('resize', handleResize);
-
-    // Particle models representing golden luxury dust fall
-    interface GoldenDrop {
-      x: number;
-      y: number;
-      size: number;
-      speed: number;
-      opacity: number;
-      drift: number;
-      spin: number;
-      spinSpeed: number;
-    }
-
-    interface TwinklerStar {
-      x: number;
-      y: number;
-      size: number;
-      baseOpacity: number;
-      speed: number;
-    }
-
-    const particles: GoldenDrop[] = [];
-    const maxParticles = 120; // Increased count for epic magical final
-
-    const stars: TwinklerStar[] = [];
-    const maxStars = 140;
-
-    for (let i = 0; i < maxParticles; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height - height, // start offscreen
-        size: Math.random() * 3.5 + 1.2,
-        speed: Math.random() * 1.3 + 0.8,
-        opacity: Math.random() * 0.7 + 0.3,
-        drift: (Math.random() - 0.5) * 0.4,
-        spin: Math.random() * Math.PI * 2,
-        spinSpeed: (Math.random() - 0.5) * 0.03,
-      });
-    }
-
-    for (let i = 0; i < maxStars; i++) {
-      stars.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * 1.4 + 0.4,
-        baseOpacity: Math.random() * 0.6 + 0.2,
-        speed: Math.random() * 0.015 + 0.005,
-      });
-    }
-
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      // Deep vignette overlay background
-      const radialGradient = ctx.createRadialGradient(
-        width / 2,
-        height / 2,
-        10,
-        width / 2,
-        height / 2,
-        Math.max(width, height)
-      );
-      radialGradient.addColorStop(0, 'rgba(10, 5, 2, 0.4)');
-      radialGradient.addColorStop(1, '#0A0502');
-      ctx.fillStyle = radialGradient;
-      ctx.fillRect(0, 0, width, height);
-
-      // Draw background twinkling starry night (Ciel étoilé)
-      stars.forEach((s, idx) => {
-        const opacity = s.baseOpacity + Math.sin(Date.now() * s.speed + idx) * 0.2;
-        ctx.save();
-        ctx.globalAlpha = Math.max(0.1, Math.min(1, opacity));
-        ctx.fillStyle = '#FCF8EC'; // Luxe Warm White
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      });
-
-      // Draw and advance each gold flake
-      particles.forEach((p) => {
-        p.y += p.speed;
-        p.x += p.drift;
-        p.spin += p.spinSpeed;
-
-        // Reset if goes off limits
-        if (p.y > height) {
-          p.y = -20;
-          p.x = Math.random() * width;
-        }
-
-        ctx.save();
-        ctx.globalAlpha = p.opacity;
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.spin);
-
-        // Render soft golden crystal stars or flakes
-        const colors = ['#C5A059', '#E6D5B8', '#F7E7CE', '#D4A5A5', '#A88241'];
-        ctx.shadowBlur = 6;
-        ctx.shadowColor = colors[Math.floor(p.x) % colors.length];
-        ctx.fillStyle = colors[Math.floor(p.y) % colors.length];
-
-        // Draw diamond shape leaf
-        ctx.beginPath();
-        ctx.moveTo(0, -p.size);
-        ctx.lineTo(p.size * 0.6, 0);
-        ctx.lineTo(0, p.size);
-        ctx.lineTo(-p.size * 0.6, 0);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.restore();
-      });
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
   // Fetch images from gallery for slide show
   const activeImage = galleryItems[slideIndex % galleryItems.length];
   const activeImageUrl = activeImage?.defaultImageUrl;
@@ -208,35 +67,24 @@ export default function FinalSection({ galleryItems }: FinalSectionProps) {
       {/* Background Slideshow of key customized/default photos with absolute blur and overlays */}
       <div className="absolute inset-0 w-full h-full bg-stone-950 overflow-hidden">
         <AnimatePresence mode="wait">
-          <motion.img
+          <MotionImage
             key={slideIndex}
             src={activeImageUrl}
             alt="Slideshow"
-            referrerPolicy="no-referrer"
+            sizes="100vw"
+            loading="lazy"
+            fallbackSrc={activeImage ? (activeImage.id.match(/[1357]/) ? '/images/KAII.jpg' : '/images/KAI.jpg') : (slideIndex % 2 === 0 ? '/images/KAII.jpg' : '/images/KAI.jpg')}
             initial={{ opacity: 0, scale: 1.05, filter: 'blur(3px) brightness(40%)' }}
             animate={{ opacity: 0.55, scale: 1, filter: 'blur(1px) brightness(28%)' }}
             exit={{ opacity: 0, scale: 0.95, filter: 'blur(3px)' }}
             transition={{ duration: 2.2, ease: 'easeOut' }}
             className="absolute inset-0 w-full h-full object-cover"
-            onError={(e) => {
-              const target = e.currentTarget;
-              const isOdd = activeImage ? activeImage.id.match(/[1357]/) : (slideIndex % 2 === 0);
-              const fallback = isOdd
-                ? '/images/KAII.jpg'
-                : '/images/KAI.jpg';
-              if (target.src !== fallback) {
-                target.src = fallback;
-              }
-            }}
           />
         </AnimatePresence>
         {/* Soft blackout veil and vignettes */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
         <div className="absolute inset-0 bg-black/45" />
       </div>
-
-      {/* Gold rain drawing canvas overlay */}
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />
 
       {/* Cinematic Text sequence overlay */}
       <div className="relative z-10 max-w-4xl text-center px-6 md:px-12 flex flex-col items-center justify-center h-full">

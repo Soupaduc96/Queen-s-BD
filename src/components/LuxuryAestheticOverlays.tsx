@@ -5,234 +5,13 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Image } from './Image';
 
 // ============================================================================
 // 1. DYNAMIC ROSE & GOLD PARTICLES SIMULATOR (HIGH-PERFORMANCE CANVAS PATTERN)
 // ============================================================================
 export function RosePetalsRain() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationId: number;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-    window.addEventListener('resize', handleResize);
-
-    interface Petal {
-      x: number;
-      y: number;
-      size: number;
-      speed: number;
-      angle: number;
-      spinSpeed: number;
-      swing: number;
-      swingSpeed: number;
-      opacity: number;
-      color: string;
-      aspectRatio: number;
-    }
-
-    interface GoldParticle {
-      x: number;
-      y: number;
-      size: number;
-      speed: number;
-      drift: number;
-      opacity: number;
-      pulseSpeed: number;
-      pulseOffset: number;
-    }
-
-    const petals: Petal[] = [];
-    const maxPetals = 180; // Supports intense ending scenes
-
-    const goldParticles: GoldParticle[] = [];
-    const maxGoldParticles = 165;
-
-    // Rich luxury rose tones
-    const roseColors = [
-      'rgba(179, 27, 27, 0.76)',   // Deep Crimson Red
-      'rgba(192, 41, 43, 0.72)',   // Rich Scarlet Rose
-      'rgba(212, 165, 165, 0.85)', // Luxury Champagne Blush
-      'rgba(141, 15, 15, 0.80)',   // Velvet Bordeaux
-      'rgba(247, 231, 206, 0.78)'  // Delicate White Rose Gold
-    ];
-
-    // Seed variables once
-    for (let i = 0; i < maxPetals; i++) {
-      petals.push({
-        x: Math.random() * width,
-        y: Math.random() * height * 1.5 - height,
-        size: Math.random() * 12 + 8,
-        speed: Math.random() * 1.1 + 0.6,
-        angle: Math.random() * Math.PI * 2,
-        spinSpeed: (Math.random() - 0.5) * 0.02,
-        swing: Math.random() * Math.PI * 2,
-        swingSpeed: Math.random() * 0.012 + 0.005,
-        opacity: Math.random() * 0.55 + 0.4,
-        color: roseColors[i % roseColors.length],
-        aspectRatio: Math.random() * 0.4 + 0.7,
-      });
-    }
-
-    for (let i = 0; i < maxGoldParticles; i++) {
-      goldParticles.push({
-        x: Math.random() * width,
-        y: Math.random() * height * 1.4 - height,
-        size: Math.random() * 2.5 + 0.8,
-        speed: Math.random() * 0.5 + 0.3,
-        drift: (Math.random() - 0.5) * 0.2,
-        opacity: Math.random() * 0.6 + 0.2,
-        pulseSpeed: Math.random() * 0.03 + 0.01,
-        pulseOffset: Math.random() * Math.PI * 2,
-      });
-    }
-
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      // Extract progressive parameters from window contexts
-      const progress = (window as any).romanticAudioProgress || 0;
-      const isEndingScene = (window as any).romanticIsEndingScene === true || progress > 0.88;
-
-      // Adjust density of rose petals and golden stars dynamically based on progression
-      const activePetalsCount = isEndingScene 
-        ? 180 
-        : Math.floor(40 + progress * 75);
-
-      const activeGoldCount = isEndingScene 
-        ? 165 
-        : Math.floor(35 + progress * 95);
-
-      // Shimmer brightness multiplier
-      const goldBrightnessFactor = isEndingScene ? 1.9 : (1.0 + progress * 0.8);
-
-      // Draw sweeping cinematic romantic light rays (intensity matches music progression)
-      const rayAlpha = (0.04 + progress * 0.14 + (isEndingScene ? 0.16 : 0));
-      if (rayAlpha > 0) {
-        ctx.save();
-        ctx.globalAlpha = rayAlpha;
-        const linearGrad = ctx.createLinearGradient(0, 0, width * 0.75, height * 0.75);
-        linearGrad.addColorStop(0, 'rgba(197, 160, 89, 0.38)'); // Royalty gold glow
-        linearGrad.addColorStop(0.4, 'rgba(212, 165, 165, 0.14)'); // Sunset rose blend
-        linearGrad.addColorStop(1, 'rgba(10, 5, 2, 0)');
-        ctx.fillStyle = linearGrad;
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
-      }
-
-      // Atmospheric gold blanket
-      if (progress > 0) {
-        ctx.save();
-        ctx.globalAlpha = Math.min(0.18, progress * 0.18);
-        ctx.fillStyle = 'rgba(197, 160, 89, 0.07)';
-        ctx.fillRect(0, 0, width, height);
-        ctx.restore();
-      }
-
-      // Draw shimmering golden particles
-      for (let i = 0; i < activeGoldCount; i++) {
-        const gp = goldParticles[i];
-        gp.y += gp.speed * (isEndingScene ? 1.35 : (1.02 + progress * 0.25));
-        gp.x += gp.drift;
-
-        if (gp.y > height + gp.size) {
-          gp.y = -gp.size - 6;
-          gp.x = Math.random() * width;
-        }
-        if (gp.x < 0) gp.x = width;
-        if (gp.x > width) gp.x = 0;
-
-        const pulseOpacity = (gp.opacity + Math.sin(Date.now() * gp.pulseSpeed + gp.pulseOffset) * 0.18) * goldBrightnessFactor;
-        const clampedOpacity = Math.max(0.1, Math.min(1.0, pulseOpacity));
-
-        ctx.save();
-        ctx.globalAlpha = clampedOpacity;
-        ctx.shadowBlur = 8 * goldBrightnessFactor;
-        ctx.shadowColor = '#C5A059';
-        ctx.fillStyle = i % 2 === 0 ? '#F7E7CE' : '#C5A059';
-        ctx.beginPath();
-        ctx.arc(gp.x, gp.y, gp.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-
-      // Draw flowing crimson/white rose petals
-      for (let i = 0; i < activePetalsCount; i++) {
-        const p = petals[i];
-        p.y += p.speed * (isEndingScene ? 1.25 : (1.0 + progress * 0.35));
-        p.angle += p.spinSpeed;
-        p.swing += p.swingSpeed;
-
-        // Elegant floating horizontal sway
-        p.x += Math.sin(p.swing) * 0.8;
-
-        if (p.y > height + p.size) {
-          p.y = -p.size - 10;
-          p.x = Math.random() * width;
-        }
-        if (p.x < -p.size) p.x = width + p.size;
-        if (p.x > width + p.size) p.x = -p.size;
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle + Math.sin(p.swing) * 0.45);
-        ctx.globalAlpha = p.opacity;
-
-        ctx.shadowBlur = 4;
-        ctx.shadowColor = 'rgba(10, 5, 2, 0.28)';
-
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        const w = p.size;
-        const h = p.size * p.aspectRatio;
-
-        ctx.moveTo(0, -h / 2);
-        ctx.bezierCurveTo(w / 2, -h / 2, w / 1.5, h / 3, 0, h / 2);
-        ctx.bezierCurveTo(-w / 1.5, h / 3, -w / 2, -h / 2, 0, -h / 2);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
-        ctx.lineWidth = 0.55;
-        ctx.beginPath();
-        ctx.moveTo(0, -h / 2);
-        ctx.quadraticCurveTo(w / 6, 0, 0, h / 2);
-        ctx.stroke();
-
-        ctx.restore();
-      }
-
-      animationId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationId);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 w-full h-full pointer-events-none z-30"
-      style={{ mixBlendMode: 'normal' }}
-    />
-  );
+  return null;
 }
 
 // ============================================================================
@@ -353,42 +132,25 @@ export function LivingParallaxBackground() {
       <AnimatePresence mode="popLayout">
         <motion.div
           key={slideIndex + '-' + activeSrc}
-          initial={{ opacity: 0, scale: 1.05, filter: 'blur(4px) brightness(15%)' }}
+          initial={{ opacity: 0, scale: 1.02 }}
           animate={{
-            opacity: 0.18, // Ambient luxury soft exposure
-            scale: [1.05, 1.12, 1.06],
-            x: [0, 10, -5, 0],
-            y: [0, -8, 5, 0],
-            rotate: [0, 0.5, -0.5, 0],
-            filter: 'blur(2px) brightness(28%)'
+            opacity: 0.14, // ambient luxury soft exposure
+            scale: 1,
           }}
-          exit={{ opacity: 0, scale: 1.02, filter: 'blur(6px)' }}
+          exit={{ opacity: 0 }}
           transition={{
-            duration: 18,
+            duration: 2.2,
             ease: 'easeInOut',
-            repeat: Infinity,
-            repeatType: 'mirror'
           }}
           className="absolute inset-0 w-full h-full"
-          style={{
-            transform: 'scale(var(--scenic-zoom, 1.0))',
-            transition: 'transform 2.2s cubic-bezier(0.16, 1, 0.3, 1)'
-          }}
         >
-          <img
+          <Image
             src={activeSrc}
             alt="Living Frame"
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              const target = e.currentTarget;
-              const fallback = slideIndex === 0
-                ? '/images/KAII.jpg'
-                : '/images/KAI.jpg';
-              if (target.src !== fallback) {
-                target.src = fallback;
-              }
-            }}
+            sizes="100vw"
+            loading="lazy"
+            fallbackSrc={slideIndex === 0 ? '/images/KAII.jpg' : '/images/KAI.jpg'}
+            className="w-full h-full object-cover filter brightness-[28%]"
           />
         </motion.div>
       </AnimatePresence>

@@ -10,7 +10,6 @@ interface CinematicLoaderProps {
 export default function CinematicLoader({ onOpen }: CinematicLoaderProps) {
   const [textStep, setTextStep] = useState(0);
   const [boxState, setBoxState] = useState<'closed' | 'opening' | 'opened'>('closed');
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // Auto-progressing text steps
   useEffect(() => {
@@ -23,175 +22,6 @@ export default function CinematicLoader({ onOpen }: CinematicLoaderProps) {
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
-    };
-  }, []);
-
-  // Performance-optimized Canvas for exclusive loader rose petals & golden sparkles
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationId: number;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-    window.addEventListener('resize', handleResize);
-
-    // Particle seeds
-    interface GoldenSparkle {
-      x: number;
-      y: number;
-      size: number;
-      speedY: number;
-      speedX: number;
-      opacity: number;
-      pulseSpeed: number;
-      angle: number;
-    }
-
-    interface RosePetal {
-      x: number;
-      y: number;
-      size: number;
-      speedY: number;
-      speedX: number;
-      angle: number;
-      spin: number;
-      opacity: number;
-    }
-
-    const sparkles: GoldenSparkle[] = [];
-    const maxSparkles = 60;
-    const petals: RosePetal[] = [];
-    const maxPetals = 35;
-
-    for (let i = 0; i < maxSparkles; i++) {
-      sparkles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * 2 + 0.5,
-        speedY: -(Math.random() * 0.4 + 0.1), // Float upwards
-        speedX: (Math.random() - 0.5) * 0.25,
-        opacity: Math.random() * 0.7 + 0.2,
-        pulseSpeed: Math.random() * 0.02 + 0.01,
-        angle: Math.random() * Math.PI * 2,
-      });
-    }
-
-    for (let i = 0; i < maxPetals; i++) {
-      petals.push({
-        x: Math.random() * width,
-        y: Math.random() * height - height,
-        size: Math.random() * 8 + 5,
-        speedY: Math.random() * 0.7 + 0.4, // Fall downwards
-        speedX: (Math.random() - 0.5) * 0.5,
-        angle: Math.random() * Math.PI * 2,
-        spin: (Math.random() - 0.5) * 0.015,
-        opacity: Math.random() * 0.5 + 0.3,
-      });
-    }
-
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      // Draw subtle ambient dark radial backglow
-      const grad = ctx.createRadialGradient(
-        width / 2,
-        height / 2,
-        10,
-        width / 2,
-        height / 2,
-        Math.max(width, height) * 0.8
-      );
-      grad.addColorStop(0, 'rgba(18, 12, 10, 0.4)');
-      grad.addColorStop(1, 'rgba(10, 5, 2, 0.95)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, width, height);
-
-      // Render sparkles (shimmering upwards)
-      sparkles.forEach((s) => {
-        s.y += s.speedY;
-        s.x += s.speedX;
-        s.angle += s.pulseSpeed;
-
-        if (s.y < -5) {
-          s.y = height + 5;
-          s.x = Math.random() * width;
-        }
-
-        const pulseOpacity = s.opacity + Math.sin(s.angle) * 0.15;
-        ctx.fillStyle = `rgba(197, 160, 89, ${Math.max(0.1, Math.min(1, pulseOpacity))})`;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Extra glowing star bloom for largest ones
-        if (s.size > 1.6) {
-          ctx.strokeStyle = `rgba(247, 231, 206, ${Math.max(0.01, pulseOpacity * 0.25)})`;
-          ctx.lineWidth = 0.5;
-          ctx.beginPath();
-          ctx.moveTo(s.x - s.size * 2, s.y);
-          ctx.lineTo(s.x + s.size * 2, s.y);
-          ctx.moveTo(s.x, s.y - s.size * 2);
-          ctx.lineTo(s.x, s.y + s.size * 2);
-          ctx.stroke();
-        }
-      });
-
-      // Render velvet red rose petals (drifting downwards)
-      petals.forEach((p) => {
-        p.y += p.speedY;
-        p.x += p.speedX + Math.sin(p.y * 0.01) * 0.2;
-        p.angle += p.spin;
-
-        if (p.y > height + 10) {
-          p.y = -10;
-          p.x = Math.random() * width;
-        }
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
-        ctx.globalAlpha = p.opacity;
-
-        // Elegant crimson velvet petal leaf design
-        ctx.fillStyle = 'rgba(179, 27, 27, 0.7)';
-        ctx.beginPath();
-        const w = p.size;
-        const h = p.size * 0.85;
-
-        ctx.moveTo(0, -h / 2);
-        ctx.bezierCurveTo(w / 2, -h / 2, w / 1.5, h / 3, 0, h / 2);
-        ctx.bezierCurveTo(-w / 1.5, h / 3, -w / 2, -h / 2, 0, -h / 2);
-        ctx.closePath();
-        ctx.fill();
-
-        // Shimmer highlighting
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-        ctx.lineWidth = 0.5;
-        ctx.beginPath();
-        ctx.moveTo(0, -h / 2);
-        ctx.quadraticCurveTo(w / 8, 0, 0, h / 2);
-        ctx.stroke();
-
-        ctx.restore();
-      });
-
-      animationId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationId);
     };
   }, []);
 
@@ -216,8 +46,8 @@ export default function CinematicLoader({ onOpen }: CinematicLoaderProps) {
   return (
     <div className="fixed inset-0 z-[100] w-full h-full bg-[#0A0502] overflow-hidden select-none">
       
-      {/* High-fidelity Canvas-based background context */}
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />
+      {/* Ambient Radial Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(28,18,12,0.4)_0%,rgba(10,5,2,0.95)_100%)] pointer-events-none" />
 
       {/* Atmospheric candle glow overlay */}
       <div 

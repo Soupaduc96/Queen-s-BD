@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Image as ImageIcon } from 'lucide-react';
 import { GalleryItem } from '../types';
 import { FlickeringCandle, FlowerBouquetOrnament } from './LuxuryAestheticOverlays';
+import { Image } from './Image';
 
 interface GallerySectionProps {
   galleryItems: GalleryItem[];
@@ -81,21 +82,13 @@ export default function GallerySection({
               >
                 {/* Background image component */}
                 <div className="absolute inset-0 w-full h-full overflow-hidden">
-                  <img
+                  <Image
                     src={displayUrl}
                     alt={item.title}
-                    referrerPolicy="no-referrer"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    loading="lazy"
+                    fallbackSrc={item.id.match(/[1357]/) ? '/images/KAII.jpg' : '/images/KAI.jpg'}
                     className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110 filter brightness-[0.7] group-hover:brightness-[0.5]"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      const isOdd = item.id.match(/[1357]/);
-                      const fallback = isOdd 
-                        ? '/images/KAII.jpg'
-                        : '/images/KAI.jpg';
-                      if (target.src !== fallback) {
-                        target.src = fallback;
-                      }
-                    }}
                   />
                   {/* Luxury soft golden overlay gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0502] via-[#0A0502]/40 to-transparent opacity-90" />
@@ -144,21 +137,13 @@ export default function GallerySection({
             >
               {/* Left Column: Image wrapper */}
               <div className="w-full md:w-1/2 h-[350px] md:h-[500px] relative">
-                <img
+                <Image
                   src={selectedItem.defaultImageUrl}
                   alt={selectedItem.title}
-                  referrerPolicy="no-referrer"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  loading="lazy"
+                  fallbackSrc={selectedItem.id.match(/[1357]/) ? '/images/KAII.jpg' : '/images/KAI.jpg'}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    const isOdd = selectedItem.id.match(/[1357]/);
-                    const fallback = isOdd 
-                      ? '/images/KAII.jpg'
-                      : '/images/KAI.jpg';
-                    if (target.src !== fallback) {
-                      target.src = fallback;
-                    }
-                  }}
                 />
               </div>
 
