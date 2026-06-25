@@ -113,8 +113,8 @@ export function LivingParallaxBackground() {
   const [slideIndex, setSlideIndex] = useState(0);
 
   const images = {
-    hero: '/images/KAII.jpg',
-    portrait: '/images/KAI.jpg'
+    hero: '/images/KAYOOO.jpg',
+    portrait: '/images/KAYOO.jpg'
   };
 
   // Rotate between image 0 and image 1 every 14 seconds
@@ -149,7 +149,7 @@ export function LivingParallaxBackground() {
             alt="Living Frame"
             sizes="100vw"
             loading="lazy"
-            fallbackSrc={slideIndex === 0 ? '/images/KAII.jpg' : '/images/KAI.jpg'}
+            fallbackSrc={slideIndex === 0 ? '/images/KAYOOO.jpg' : '/images/KAYOO.jpg'}
             className="w-full h-full object-cover filter brightness-[28%]"
           />
         </motion.div>

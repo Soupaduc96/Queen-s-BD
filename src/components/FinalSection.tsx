@@ -28,7 +28,7 @@ export default function FinalSection({ galleryItems }: FinalSectionProps) {
   }, []);
 
   const texts = [
-    "Joyeux 20ème anniversaire, Kai.",
+    "Joyeux Nouveau Printemps, Kayoo.",
     "Merci pour tous ces moments, Kayoo.",
     "Tu seras toujours mon Trésor.",
     "Je t'aime infiniment."
@@ -73,7 +73,7 @@ export default function FinalSection({ galleryItems }: FinalSectionProps) {
             alt="Slideshow"
             sizes="100vw"
             loading="lazy"
-            fallbackSrc={activeImage ? (activeImage.id.match(/[1357]/) ? '/images/KAII.jpg' : '/images/KAI.jpg') : (slideIndex % 2 === 0 ? '/images/KAII.jpg' : '/images/KAI.jpg')}
+            fallbackSrc={activeImage ? (activeImage.id.match(/[1357]/) ? '/images/KAYOOO.jpg' : '/images/KAYOO.jpg') : (slideIndex % 2 === 0 ? '/images/KAYOOO.jpg' : '/images/KAYOO.jpg')}
             initial={{ opacity: 0, scale: 1.05, filter: 'blur(3px) brightness(40%)' }}
             animate={{ opacity: 0.55, scale: 1, filter: 'blur(1px) brightness(28%)' }}
             exit={{ opacity: 0, scale: 0.95, filter: 'blur(3px)' }}

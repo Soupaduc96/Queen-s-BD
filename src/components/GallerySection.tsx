@@ -87,7 +87,7 @@ export default function GallerySection({
                     alt={item.title}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     loading="lazy"
-                    fallbackSrc={item.id.match(/[1357]/) ? '/images/KAII.jpg' : '/images/KAI.jpg'}
+                    fallbackSrc={item.id.match(/[1357]/) ? '/images/KAYOOO.jpg' : '/images/KAYOO.jpg'}
                     className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110 filter brightness-[0.7] group-hover:brightness-[0.5]"
                   />
                   {/* Luxury soft golden overlay gradient */}
@@ -142,7 +142,7 @@ export default function GallerySection({
                   alt={selectedItem.title}
                   sizes="(max-width: 768px) 100vw, 50vw"
                   loading="lazy"
-                  fallbackSrc={selectedItem.id.match(/[1357]/) ? '/images/KAII.jpg' : '/images/KAI.jpg'}
+                  fallbackSrc={selectedItem.id.match(/[1357]/) ? '/images/KAYOOO.jpg' : '/images/KAYOO.jpg'}
                   className="w-full h-full object-cover"
                 />
               </div>

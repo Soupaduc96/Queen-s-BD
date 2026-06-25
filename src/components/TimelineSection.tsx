@@ -14,7 +14,7 @@ export default function TimelineSection() {
       period: 'La Genèse',
       title: 'La Rencontre Éveillée',
       description: 'Le jour béni où nos univers croisés se sont soudain assemblés. Un premier échange timide avec toi, ma douce Kayoo, le point zéro de l\'aventure sacrée de nos âmes.',
-      emotion: 'Un instant d’éternité suspendu, Kai.'
+      emotion: 'Un instant d’éternité suspendu, Kayoo.'
     },
     {
       id: 'm2',

@@ -13,7 +13,7 @@ export default function CinematicLoader({ onOpen }: CinematicLoaderProps) {
 
   // Auto-progressing text steps
   useEffect(() => {
-    // 0: "Pour Kai..." -> shows up for 3 seconds then fades out
+    // 0: "Pour Kayoo..." -> shows up for 3 seconds then fades out
     // 1: "Créé avec amour." -> shows up at 4.2 seconds, stays, fades out at 7.2
     // 2: "Une expérience unique t'attend." -> shows up at 8.4 seconds along with the luxury gift box
     const timer1 = setTimeout(() => setTextStep(1), 4000);
@@ -89,10 +89,10 @@ export default function CinematicLoader({ onOpen }: CinematicLoaderProps) {
       <div className="relative w-full h-full flex flex-col items-center justify-center p-6 z-20">
         <AnimatePresence mode="wait">
           
-          {/* STEP 0: "Pour Kai..." */}
+          {/* STEP 0: "Pour Kayoo..." */}
           {textStep === 0 && (
             <motion.div
-              key="loader-pour-kai"
+              key="loader-pour-kayoo"
               initial={{ opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
               animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
               exit={{ opacity: 0, scale: 1.04, filter: 'blur(8px)' }}
@@ -100,7 +100,7 @@ export default function CinematicLoader({ onOpen }: CinematicLoaderProps) {
               className="text-center"
             >
               <p className="font-serif italic text-3xl sm:text-5xl tracking-[0.1em] font-light text-[#F7E7CE] leading-relaxed">
-                Pour Kai...
+                Pour Kayoo...
               </p>
               <div className="mt-8 flex items-center justify-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#C5A059] animate-ping" />
@@ -146,7 +146,7 @@ export default function CinematicLoader({ onOpen }: CinematicLoaderProps) {
               <div className="flex items-center gap-2.5 text-[#C5A059] mb-4">
                 <Sparkles className="w-3.5 h-3.5 animate-pulse" />
                 <span className="font-display tracking-[0.35em] text-[10px] font-bold uppercase text-[#D4A5A5]">
-                  Vingt Ans d'Éclat
+                  Nouveau Printemps
                 </span>
                 <Sparkles className="w-3.5 h-3.5 animate-pulse" />
               </div>
@@ -207,7 +207,7 @@ export default function CinematicLoader({ onOpen }: CinematicLoaderProps) {
 
       {/* Decorative Brand Monograms in absolute corner margins */}
       <div className="absolute top-8 left-8 text-[9px] font-mono tracking-[0.3em] uppercase text-stone-600 pointer-events-none">
-        KAI • XX
+        KAYOO • PRINTEMPS
       </div>
       <div className="absolute top-8 right-8 text-[9px] font-mono tracking-[0.3em] uppercase text-stone-600 pointer-events-none animate-pulse">
         LUMIÈRE ÉTERNELLE

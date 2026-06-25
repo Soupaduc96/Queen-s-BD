@@ -1,6 +1,6 @@
 {
   "name": "Queen's BD",
-  "description": "Une experience web premium, interactive et cinematographique creee pour celebrer le 20eme anniversaire de la Reine, Kai.",
+  "description": "Une expérience web premium, interactive et cinématographique créée pour célébrer le Nouveau Printemps de la Reine, Kayoo.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

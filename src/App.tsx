@@ -33,56 +33,56 @@ export default function App() {
       title: 'Dignité & Beauté Royale',
       quality: 'Une Reine Céleste',
       description: 'Un rayonnement absolu qui capte la lumière naturelle, alliant charisme souverain et grâce intemporelle dans chaque regard.',
-      defaultImageUrl: '/images/KAII.jpg',
+      defaultImageUrl: '/images/KAYOOO.jpg',
     },
     {
       id: 'g2',
       title: 'L\'Élégance de sa Démarche',
       quality: 'Grâce Souveraine',
-      description: 'Chaque geste est une poésie muette. Du choix d’une tenue au port majestueux de la tête, l’élégance coule naturellement dans tes veines, ma belle Kai.',
-      defaultImageUrl: '/images/KAI.jpg',
+      description: 'Chaque geste est une poésie muette. Du choix d’une tenue au port majestueux de la tête, l’élégance coule naturellement dans tes veines, ma belle Kayoo.',
+      defaultImageUrl: '/images/KAYOO.jpg',
     },
     {
       id: 'g3',
       title: 'La Beauté de son Sourire',
       quality: 'Rayon de Soleil',
       description: 'Lorsque tes lèvres dessinent ce sourire espiègle et sincère, les nuages de mon quotidien s\'estompent pour laisser place à l’aurore, Kayoo.',
-      defaultImageUrl: '/images/KAII.jpg',
+      defaultImageUrl: '/images/KAYOOO.jpg',
     },
     {
       id: 'g4',
       title: 'La Douceur de ses Gestes',
       quality: 'Havre Infini',
       description: 'Une bienveillance qui réconforte sans mot dire, comme la confiance immense que m’inspirent les battements chaleureux de ton cœur, mon Trésor.',
-      defaultImageUrl: '/images/KAI.jpg',
+      defaultImageUrl: '/images/KAYOO.jpg',
     },
     {
       id: 'g5',
       title: 'Son Intelligence Vive',
       quality: 'Sagesse Dorée',
       description: 'Ta perception aiguisée des hommes et des choses enrichit mes journées. Ta curiosité intellectuelle et ton discernement absolu, Hun, me fascinent.',
-      defaultImageUrl: '/images/KAII.jpg',
+      defaultImageUrl: '/images/KAYOOO.jpg',
     },
     {
       id: 'g6',
       title: 'Son Charisme Mystique',
       quality: 'Aura Majestueuse',
       description: 'Une présence irrésistible qui captive immédiatement tous ceux qui t\'entourent, sans effort apparent. Tu imposes le respect et la dévotion totale, Mammie.',
-      defaultImageUrl: '/images/KAI.jpg',
+      defaultImageUrl: '/images/KAYOO.jpg',
     },
     {
       id: 'g7',
       title: 'La Noblesse de sa Force',
       quality: 'Pilier Secrète',
       description: 'Cachée derrière ta délicatesse divine bat une volonté de fer. Tu affrontes le monde avec dignité et courage, inspirant mon existence, ma Fanm vim.',
-      defaultImageUrl: '/images/KAII.jpg',
+      defaultImageUrl: '/images/KAYOOO.jpg',
     },
     {
       id: 'g8',
       title: 'Sa Lumière Intérieure',
       quality: 'Éclat Divin',
       description: 'Une lueur immaculée qui provient du plus profond de ton âme précieuse, capable d\'illuminer et de guider celle de celui qui t\'aime, ma Manmi vim.',
-      defaultImageUrl: '/images/KAI.jpg',
+      defaultImageUrl: '/images/KAYOO.jpg',
     }
   ];
 
@@ -180,7 +180,7 @@ export default function App() {
               
               <div className="flex items-center gap-4">
                 <p className="font-display tracking-[0.3em] text-[10px] text-[#C5A059] uppercase font-bold">
-                  Joyeux 20 ans • Vingt Ans d'Éclat
+                  Joyeux Nouveau Printemps • Nouveau Printemps d'Éclat
                 </p>
               </div>
             </header>
@@ -203,11 +203,11 @@ export default function App() {
                 </div>
                 
                 <h1 className="font-serif text-5xl md:text-7xl font-light tracking-wide text-[#F7E7CE] leading-[1.1]">
-                  La Reine de <br /><span className="italic font-serif text-[#C5A059]">Mon Cœur, Kai</span>
+                  La Reine de <br /><span className="italic font-serif text-[#C5A059]">Mon Cœur, Kayoo</span>
                 </h1>
                 
                 <p className="font-script text-4.5xl md:text-5xl text-[#D4A5A5] tracking-wide font-normal pt-2">
-                  Vingt Ans d'Éclat de Mon Trésor, Kayoo
+                  Nouveau Printemps d'Éclat de Mon Trésor, Kayoo
                 </p>
 
                 <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-[#C5A059] to-transparent mx-auto pt-4" />
@@ -271,7 +271,7 @@ export default function App() {
               </div>
               
               <p className="font-display text-[10px] text-[#E6D5B8]/40 tracking-[0.25em] uppercase">
-                Créé avec dévotion et amour • Vingt Ans d'Éclat • Juin 2026
+                Créé avec dévotion et amour • Nouveau Printemps d'Éclat • Juin 2026
               </p>
             </footer>
 

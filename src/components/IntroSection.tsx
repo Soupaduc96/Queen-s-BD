@@ -73,7 +73,7 @@ export default function IntroSection({ onComplete }: IntroSectionProps) {
         transition={{ duration: 2, ease: 'easeOut' }}
         className="absolute top-12 flex flex-col items-center gap-1 text-[#C5A059]"
       >
-        <span className="font-display tracking-[0.4em] text-xs font-light text-[#E6D5B8]">XX</span>
+        <span className="font-display tracking-[0.4em] text-xs font-light text-[#E6D5B8]">PRINTEMPS</span>
         <div className="w-[1px] h-6 bg-gradient-to-b from-[#C5A059] to-transparent" />
       </motion.div>
 
@@ -89,7 +89,7 @@ export default function IntroSection({ onComplete }: IntroSectionProps) {
               transition={{ duration: 1.5, ease: [0.33, 1, 0.68, 1] }}
               className="font-serif italic text-2xl md:text-3xl text-gold-100 font-light leading-relaxed tracking-wide"
             >
-              « Il y a vingt ans, mon Trésor, une lumière pure nommée Kai est née... »
+              « En ce Nouveau Printemps, mon Trésor, une lumière pure nommée Kayoo brille... »
             </motion.p>
           )}
 
@@ -168,7 +168,7 @@ export default function IntroSection({ onComplete }: IntroSectionProps) {
       >
         <span>Une histoire sacrée</span>
         <Heart className="w-2.5 h-2.5 fill-[#C5A059]/50 stroke-none" />
-        <span>Vingt Ans D'Éclat</span>
+        <span>Nouveau Printemps D'Éclat</span>
       </motion.p>
     </div>
   );

@@ -142,7 +142,7 @@ export default function ReasonsSection() {
 
   return (
     <section
-      id="vingt-raisons-de-taimer"
+      id="printemps-raisons-de-taimer"
       className="relative min-h-screen bg-[#0A0502] py-24 px-6 md:px-12 flex flex-col items-center justify-center overflow-hidden border-t border-[#C5A059]/15 selection:bg-[#C5A059]/15"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,165,165,0.04)_0%,transparent_60%)] pointer-events-none" />
@@ -158,15 +158,15 @@ export default function ReasonsSection() {
             className="flex items-center justify-center gap-2 text-[#C5A059] text-xs font-display tracking-[0.4em] uppercase"
           >
             <FlameKindling className="w-3.5 h-3.5" />
-            <span>Chant des Vingt Serments</span>
+            <span>Chant du Nouveau Printemps</span>
           </motion.div>
           
           <h2 className="font-serif text-4xl md:text-5xl font-light text-[#F7E7CE] tracking-wide">
-            20 Raisons de T'aimer
+            Nouveau Printemps de Raisons de T'aimer
           </h2>
           
           <p className="font-sans font-light sm:max-w-xl mx-auto text-[#E6D5B8]/80 italic text-sm md:text-base leading-relaxed">
-            « Vingt battements secrets de mon cœur, transcrits en lettres d’or pour immortaliser ta grandeur et ma dévotion... »
+            « De doux battements secrets de mon cœur, transcrits en lettres d’or pour accueillir ton Nouveau Printemps et ma dévotion... »
           </p>
         </div>
 

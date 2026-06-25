@@ -121,7 +121,7 @@ export default function LetterSection() {
 
                   <div className="font-serif text-sm sm:text-base leading-relaxed text-stone-800 space-y-6 font-light">
                     <p>
-                      Aujourd’hui, alors que le monde s’arrête un court instant pour célébrer le jour précieux où tu es née il y a vingt ans de cela, mon âme ressent l’irrésistible besoin de te livrer ses plus doux secrets. T’aimer au quotidien, ma belle Kai, s’avère être le privilège le plus noble et le plus sacré de toute mon existence.
+                      Aujourd’hui, alors que le monde s’arrête un court instant pour célébrer le jour précieux où tu es née pour accueillir ton Nouveau Printemps, mon âme ressent l’irrésistible besoin de te livrer ses plus doux secrets. T’aimer au quotidien, ma belle Kayoo, s’avère être le privilège le plus noble et le plus sacré de toute mon existence.
                     </p>
                     
                     <p>
@@ -133,7 +133,7 @@ export default function LetterSection() {
                     </p>
                     
                     <p>
-                      En ce vingtième anniversaire si symbolique, ma sublime Fanm vim, je formule la promesse sacrée de chérir chaque seconde partagée, d'ériger ton sourire en véritable joyau de mon quotidien, et de dessiner un futur radieux à l'unisson. Le plus beau chapitre de notre odyssée s'apprête encore à être couché par écrit.
+                      En ce Nouveau Printemps si symbolique, ma sublime Fanm vim, je formule la promesse sacrée de chérir chaque seconde partagée, d'ériger ton sourire en véritable joyau de mon quotidien, et de dessiner un futur radieux à l'unisson. Le plus beau chapitre de notre odyssée s'apprête encore à être couché par écrit.
                     </p>
                   </div>
 
